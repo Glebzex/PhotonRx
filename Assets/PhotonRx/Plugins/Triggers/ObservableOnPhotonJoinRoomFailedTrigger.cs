@@ -10,7 +10,7 @@ namespace PhotonRx.Triggers
     {
         private Subject<FailureReason> onPhotonJoinRoomFailed;
 
-        void OnPhotonJoinRoomFailed(object[] log)
+        private void OnPhotonJoinRoomFailed(object[] log)
         {
             if (onPhotonJoinRoomFailed != null)
             {
@@ -30,7 +30,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onPhotonJoinRoomFailed != null) onPhotonJoinRoomFailed.OnCompleted();
+            onPhotonJoinRoomFailed?.OnCompleted();
         }
     }
 }

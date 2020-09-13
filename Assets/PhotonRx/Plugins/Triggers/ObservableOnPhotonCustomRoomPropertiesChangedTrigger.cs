@@ -13,7 +13,7 @@ namespace PhotonRx.Triggers
 
         private void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged)
         {
-            if (onPhotonCustomRoomPropertiesChanged != null) onPhotonCustomRoomPropertiesChanged.OnNext(propertiesThatChanged);
+            onPhotonCustomRoomPropertiesChanged?.OnNext(propertiesThatChanged);
         }
 
         /// <summary>
@@ -26,10 +26,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onPhotonCustomRoomPropertiesChanged != null)
-            {
-                onPhotonCustomRoomPropertiesChanged.OnCompleted();
-            }
+            onPhotonCustomRoomPropertiesChanged?.OnCompleted();
         }
     }
 }

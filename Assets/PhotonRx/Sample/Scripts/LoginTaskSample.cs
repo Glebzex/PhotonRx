@@ -2,7 +2,7 @@
 using PhotonRx;
 using UnityEngine;
 #if ( NET_4_6 || NET_STANDARD_2_0)
-using System.Threading.Tasks;
+
 #endif
 
 public class LoginTaskSample : MonoBehaviour
@@ -25,9 +25,8 @@ public class LoginTaskSample : MonoBehaviour
     async void LoginAndJoinRoom()
     {
         var token = _cancellationTokenSource.Token;
-        PhotonNetwork.autoJoinLobby = true;
 
-        var connect = await PhotonTask.ConnectUsingSettings("v1", token);
+        var connect = await PhotonTask.ConnectUsingSettings(token);
 
         // 失敗
         if (connect.IsFailure)

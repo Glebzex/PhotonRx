@@ -12,11 +12,11 @@ namespace PhotonRx.Triggers
 
         private void OnUpdatedFriendList()
         {
-            if (onUpdatedFriendList != null) onUpdatedFriendList.OnNext(Unit.Default);
+            onUpdatedFriendList?.OnNext(Unit.Default);
         }
 
         /// <summary>
-        /// PhotonNetwork.Firendsが更新されたことを通知する
+        /// PhotonNetwork.Friendsが更新されたことを通知する
         /// </summary>
         public IObservable<Unit> OnUpdatedFriendListAsObservable()
         {
@@ -25,10 +25,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onUpdatedFriendList != null)
-            {
-                onUpdatedFriendList.OnCompleted();
-            }
+            onUpdatedFriendList?.OnCompleted();
         }
     }
 }

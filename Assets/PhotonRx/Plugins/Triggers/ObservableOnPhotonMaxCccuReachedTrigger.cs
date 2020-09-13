@@ -12,7 +12,7 @@ namespace PhotonRx.Triggers
 
         private void OnPhotonMaxCccuReached()
         {
-            if (onPhotonMaxCccuReached != null) onPhotonMaxCccuReached.OnNext(Unit.Default);
+            onPhotonMaxCccuReached?.OnNext(Unit.Default);
         }
 
         /// <summary>
@@ -25,10 +25,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onPhotonMaxCccuReached != null)
-            {
-                onPhotonMaxCccuReached.OnCompleted();
-            }
+            onPhotonMaxCccuReached?.OnCompleted();
         }
     }
 }

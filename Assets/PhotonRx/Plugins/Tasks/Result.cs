@@ -85,9 +85,9 @@ namespace PhotonRx
             return fl(Value);
         }
 
-        public Failure(L failuer) : this()
+        public Failure(L failure) : this()
         {
-            Value = failuer;
+            Value = failure;
         }
 
         public IResult<L, R> AsResult { get { return this; } }
@@ -96,9 +96,9 @@ namespace PhotonRx
 
     public static class Failure
     {
-        public static IResult<L, R> Create<L, R>(L failuer)
+        public static IResult<L, R> Create<L, R>(L failure)
         {
-            return new Failure<L, R>(failuer);
+            return new Failure<L, R>(failure);
         }
     }
 

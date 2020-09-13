@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using Photon.Pun;
+using Photon.Realtime;
 using PhotonRx;
 using UniRx;
 using UnityEngine.UI;
@@ -16,8 +18,7 @@ namespace PhotonRx.Sample
 
         private void Start()
         {
-            PhotonNetwork.autoJoinLobby = true;
-            Observable.FromCoroutine<string>(observer => ConnectAndJoinCoroutine(observer))
+            Observable.FromCoroutine<string>(ConnectAndJoinCoroutine)
                 .Retry(3) //3回までリトライ
                 .Subscribe(x => logText.text += String.Format("[{0}] {1}\n", DateTime.Now, x));
         }
@@ -38,7 +39,7 @@ namespace PhotonRx.Sample
             loginStream.Connect();
 
             //接続開始
-            PhotonNetwork.ConnectUsingSettings("0.1");
+            PhotonNetwork.ConnectUsingSettings();
 
             //ロビーへの参加通知を待ち受ける
             object result = default(object);

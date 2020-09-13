@@ -1,41 +1,36 @@
 ﻿using UnityEngine;
 using System;
 using ExitGames.Client.Photon;
+using Photon.Realtime;
 using UniRx;
 using UniRx.Triggers;
 
 namespace PhotonRx.Triggers
 {
     [DisallowMultipleComponent]
-    public class ObservableOnPhotonPlayerPropertiesChangedTrigger : ObservableTriggerBase
+    public class ObservableOnPlayerPropertiesChangedTrigger : ObservableTriggerBase
     {
-        private Subject<Tuple<PhotonPlayer,Hashtable>> onPhotonPlayerPropertiesChanged;
+        private Subject<Tuple<Player,Hashtable>> onPlayerPropertiesChanged;
 
-        private void OnPhotonPlayerPropertiesChanged(object[] data)
+        private void OnPlayerPropertiesChanged(object[] data)
         {
-            if (onPhotonPlayerPropertiesChanged != null)
-            {
-                onPhotonPlayerPropertiesChanged.OnNext(new Tuple<PhotonPlayer, Hashtable>(
-                    data[0] as PhotonPlayer,
-                    data[1] as Hashtable
-                    ));
-            }
+            onPlayerPropertiesChanged?.OnNext(new Tuple<Player, Hashtable>(
+                data[0] as Player,
+                data[1] as Hashtable
+            ));
         }
 
         /// <summary>
         /// プレイヤのカスタムプロパティが変更されたことを通知する
         /// </summary>
-        public IObservable<Tuple<PhotonPlayer, Hashtable>> OnPhotonPlayerPropertiesChangedAsObservable()
+        public IObservable<Tuple<Player, Hashtable>> OnPlayerPropertiesChangedAsObservable()
         {
-            return onPhotonPlayerPropertiesChanged ?? (onPhotonPlayerPropertiesChanged = new Subject<Tuple<PhotonPlayer, Hashtable>>());
+            return onPlayerPropertiesChanged ?? (onPlayerPropertiesChanged = new Subject<Tuple<Player, Hashtable>>());
         }
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onPhotonPlayerPropertiesChanged != null)
-            {
-                onPhotonPlayerPropertiesChanged.OnCompleted();
-            }
+            onPlayerPropertiesChanged?.OnCompleted();
         }
     }
 }

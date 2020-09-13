@@ -12,7 +12,7 @@ namespace PhotonRx.Triggers
 
         private void OnJoinedLobby()
         {
-            if (onJoinedLobby != null) onJoinedLobby.OnNext(Unit.Default);
+            onJoinedLobby?.OnNext(Unit.Default);
         }
 
         /// <summary>
@@ -25,10 +25,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onJoinedLobby != null)
-            {
-                onJoinedLobby.OnCompleted();
-            }
+            onJoinedLobby?.OnCompleted();
         }
     }
 }

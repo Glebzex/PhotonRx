@@ -12,7 +12,7 @@ namespace PhotonRx.Triggers
 
         private void OnConnectedToPhoton()
         {
-            if (onConnectedToPhoton != null) onConnectedToPhoton.OnNext(Unit.Default);
+            onConnectedToPhoton?.OnNext(Unit.Default);
         }
 
         /// <summary>
@@ -25,10 +25,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onConnectedToPhoton != null)
-            {
-                onConnectedToPhoton.OnCompleted();
-            }
+            onConnectedToPhoton?.OnCompleted();
         }
     }
 }

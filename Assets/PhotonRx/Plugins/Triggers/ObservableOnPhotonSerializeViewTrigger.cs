@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Photon.Pun;
 using UniRx;
 using UniRx.Triggers;
 
@@ -8,16 +9,13 @@ namespace PhotonRx.Triggers
     [DisallowMultipleComponent]
     public class ObservableOnPhotonSerializeViewTrigger : ObservableTriggerBase
     {
-        private bool isInitalized;
+        private bool isInitialized;
 
         private Subject<Tuple<PhotonStream, PhotonMessageInfo>> onPhotonSerializeView;
 
         private void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            if (onPhotonSerializeView != null)
-            {
-                onPhotonSerializeView.OnNext(new Tuple<PhotonStream, PhotonMessageInfo>(stream, info));
-            }
+            onPhotonSerializeView?.OnNext(new Tuple<PhotonStream, PhotonMessageInfo>(stream, info));
         }
 
         /// <summary>
@@ -25,12 +23,12 @@ namespace PhotonRx.Triggers
         /// </summary>
         public IObservable<Tuple<PhotonStream, PhotonMessageInfo>> OnPhotonSerializeViewAsObservable()
         {
-            if (!isInitalized)
+            if (!isInitialized)
             {
                 var view = PhotonView.Get(this);
                 if (view == null) throw new Exception("Not found PhotonView.");
                 if (!view.ObservedComponents.Contains(this)) view.ObservedComponents.Add(this);
-                isInitalized = true;
+                isInitialized = true;
             }
 
             return onPhotonSerializeView ??
@@ -39,10 +37,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onPhotonSerializeView != null)
-            {
-                onPhotonSerializeView.OnCompleted();
-            }
+            onPhotonSerializeView?.OnCompleted();
         }
     }
 }

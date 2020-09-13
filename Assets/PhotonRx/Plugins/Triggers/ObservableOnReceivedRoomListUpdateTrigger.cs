@@ -12,7 +12,7 @@ namespace PhotonRx.Triggers
 
         private void OnReceivedRoomListUpdate()
         {
-            if (onRoomListUpdate != null) onRoomListUpdate.OnNext(Unit.Default);
+            onRoomListUpdate?.OnNext(Unit.Default);
         }
 
         /// <summary>
@@ -25,10 +25,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onRoomListUpdate != null)
-            {
-                onRoomListUpdate.OnCompleted();
-            }
+            onRoomListUpdate?.OnCompleted();
         }
     }
 }

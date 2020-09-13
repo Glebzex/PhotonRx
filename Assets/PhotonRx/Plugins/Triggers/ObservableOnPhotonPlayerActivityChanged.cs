@@ -1,31 +1,29 @@
 ﻿using UnityEngine;
 using System;
+using Photon.Realtime;
 using UniRx;
 using UniRx.Triggers;
 
 namespace PhotonRx.Triggers
 {
     [DisallowMultipleComponent]
-    public class ObservableOnPhotonPlayerActivityChanged : ObservableTriggerBase
+    public class ObservableOnPlayerActivityChanged : ObservableTriggerBase
     {
-        private Subject<PhotonPlayer> onChanged;
+        private Subject<Player> onChanged;
 
-        private void OnPhotonPlayerActivityChanged(PhotonPlayer otherPlayer)
+        private void OnPlayerActivityChanged(Player otherPlayer)
         {
-            if (onChanged != null) onChanged.OnNext(otherPlayer);
+            onChanged?.OnNext(otherPlayer);
         }
 
-        public IObservable<PhotonPlayer> OnPhotonPlayerActivityChangedAsObservable()
+        public IObservable<Player> OnPlayerActivityChangedAsObservable()
         {
-            return onChanged ?? (onChanged = new Subject<PhotonPlayer>());
+            return onChanged ?? (onChanged = new Subject<Player>());
         }
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onChanged != null)
-            {
-                onChanged.OnCompleted();
-            }
+            onChanged?.OnCompleted();
         }
     }
 }

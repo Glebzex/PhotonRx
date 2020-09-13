@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Photon.Pun;
 using UniRx;
 using UniRx.Triggers;
 
@@ -12,7 +13,7 @@ namespace PhotonRx.Triggers
 
         private void OnPhotonInstantiate(PhotonMessageInfo info)
         {
-            if (onPhotonInstantiate != null) onPhotonInstantiate.OnNext(info);
+            onPhotonInstantiate?.OnNext(info);
         }
 
         /// <summary>
@@ -25,10 +26,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onPhotonInstantiate != null)
-            {
-                onPhotonInstantiate.OnCompleted();
-            }
+            onPhotonInstantiate?.OnCompleted();
         }
     }
 }

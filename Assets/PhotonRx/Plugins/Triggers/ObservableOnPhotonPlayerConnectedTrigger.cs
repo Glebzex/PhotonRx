@@ -1,34 +1,32 @@
 ﻿using UnityEngine;
 using System;
+using Photon.Realtime;
 using UniRx;
 using UniRx.Triggers;
 
 namespace PhotonRx.Triggers
 {
     [DisallowMultipleComponent]
-    public class ObservableOnPhotonPlayerConnectedTrigger : ObservableTriggerBase
+    public class ObservableOnPlayerConnectedTrigger : ObservableTriggerBase
     {
-        private Subject<PhotonPlayer> onPhotonPlayerConnected;
+        private Subject<Player> onPlayerConnected;
 
-        private void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+        private void OnPlayerConnected(Player newPlayer)
         {
-            if (onPhotonPlayerConnected != null) onPhotonPlayerConnected.OnNext(newPlayer);
+            onPlayerConnected?.OnNext(newPlayer);
         }
 
         /// <summary>
         /// リモートプレイヤが部屋に参加したことを通知する
         /// </summary>
-        public IObservable<PhotonPlayer> OnPhotonPlayerConnectedAsObservable()
+        public IObservable<Player> OnPlayerConnectedAsObservable()
         {
-            return onPhotonPlayerConnected ?? (onPhotonPlayerConnected = new Subject<PhotonPlayer>());
+            return onPlayerConnected ?? (onPlayerConnected = new Subject<Player>());
         }
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onPhotonPlayerConnected != null)
-            {
-                onPhotonPlayerConnected.OnCompleted();
-            }
+            onPlayerConnected?.OnCompleted();
         }
     }
 }

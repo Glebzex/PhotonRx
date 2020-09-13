@@ -12,7 +12,7 @@ namespace PhotonRx.Triggers
 
         private void OnCreatedRoom()
         {
-            if (onCreatedRoom != null) onCreatedRoom.OnNext(Unit.Default);
+            onCreatedRoom?.OnNext(Unit.Default);
         }
 
         /// <summary>
@@ -25,10 +25,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onCreatedRoom != null)
-            {
-                onCreatedRoom.OnCompleted();
-            }
+            onCreatedRoom?.OnCompleted();
         }
     }
 }

@@ -8,11 +8,11 @@ namespace PhotonRx.Triggers
     [DisallowMultipleComponent]
     public class ObservableOnDisconnectedFromPhotonTrigger : ObservableTriggerBase
     {
-        private Subject<Unit> onDisocnnectedFromPhoton;
+        private Subject<Unit> onDisconnectedFromPhoton;
 
         private void OnDisconnectedFromPhoton()
         {
-            if (onDisocnnectedFromPhoton != null) onDisocnnectedFromPhoton.OnNext(Unit.Default);
+            onDisconnectedFromPhoton?.OnNext(Unit.Default);
         }
 
         /// <summary>
@@ -20,15 +20,12 @@ namespace PhotonRx.Triggers
         /// </summary>
         public IObservable<Unit> OnDisconnectedFromPhotonAsObservable()
         {
-            return onDisocnnectedFromPhoton ?? (onDisocnnectedFromPhoton = new Subject<Unit>());
+            return onDisconnectedFromPhoton ?? (onDisconnectedFromPhoton = new Subject<Unit>());
         }
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onDisocnnectedFromPhoton != null)
-            {
-                onDisocnnectedFromPhoton.OnCompleted();
-            }
+            onDisconnectedFromPhoton?.OnCompleted();
         }
     }
 }

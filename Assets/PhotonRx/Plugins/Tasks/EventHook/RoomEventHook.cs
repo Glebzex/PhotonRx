@@ -25,7 +25,7 @@ namespace PhotonRx
         }
 
 
-        void OnPhotonRandomJoinFailed(object[] log)
+        private void OnPhotonRandomJoinFailed(object[] log)
         {
             var code = (short)log[0];
             var message = log[1] as string;
@@ -41,7 +41,7 @@ namespace PhotonRx
             }
         }
 
-        void OnPhotonJoinRoomFailed(object[] log)
+        private void OnPhotonJoinRoomFailed(object[] log)
         {
             var code = (short)log[0];
             var message = log[1] as string;

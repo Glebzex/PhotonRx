@@ -31,10 +31,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onPhotonCreateRoomFailed != null)
-            {
-                onPhotonCreateRoomFailed.OnCompleted();
-            }
+            onPhotonCreateRoomFailed?.OnCompleted();
         }
     }
 }

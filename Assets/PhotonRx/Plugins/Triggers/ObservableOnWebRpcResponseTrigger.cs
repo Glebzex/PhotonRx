@@ -13,7 +13,7 @@ namespace PhotonRx.Triggers
 
         private void OnWebRpcResponse(OperationResponse response)
         {
-            if (onWebRpcResponse != null) onWebRpcResponse.OnNext(response);
+            onWebRpcResponse?.OnNext(response);
         }
 
         /// <summary>
@@ -26,10 +26,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onWebRpcResponse != null)
-            {
-                onWebRpcResponse.OnCompleted();
-            }
+            onWebRpcResponse?.OnCompleted();
         }
     }
 }

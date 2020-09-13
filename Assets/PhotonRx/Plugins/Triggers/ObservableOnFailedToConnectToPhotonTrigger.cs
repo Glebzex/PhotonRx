@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Photon.Realtime;
 using UniRx;
 using UniRx.Triggers;
 
@@ -12,7 +13,7 @@ namespace PhotonRx.Triggers
 
         private void OnFailedToConnectToPhoton(DisconnectCause cause)
         {
-            if (onFailedToConnectToPhoton != null) onFailedToConnectToPhoton.OnNext(cause);
+            onFailedToConnectToPhoton?.OnNext(cause);
         }
 
         /// <summary>
@@ -25,10 +26,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onFailedToConnectToPhoton != null)
-            {
-                onFailedToConnectToPhoton.OnCompleted();
-            }
+            onFailedToConnectToPhoton?.OnCompleted();
         }
     }
 }

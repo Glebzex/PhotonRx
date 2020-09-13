@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Photon.Realtime;
 using UnityEngine;
 
 namespace PhotonRx
@@ -26,7 +27,6 @@ namespace PhotonRx
 
         private void OnConnectedToPhoton()
         {
-            if (PhotonNetwork.autoJoinLobby) return;
             lock (gate)
             {
                 var targets = observers.ToArray();
@@ -40,7 +40,6 @@ namespace PhotonRx
 
         private void OnJoinedLobby()
         {
-            if (!PhotonNetwork.autoJoinLobby) return;
             lock (gate)
             {
                 var targets = observers.ToArray();

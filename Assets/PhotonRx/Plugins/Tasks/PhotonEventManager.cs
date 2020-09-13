@@ -33,7 +33,7 @@ namespace PhotonRx
                     return;
                 }
 #endif
-                var manager = GameObject.FindObjectOfType<PhotonEventManager>();
+                var manager = FindObjectOfType<PhotonEventManager>();
 
                 if (manager == null)
                 {

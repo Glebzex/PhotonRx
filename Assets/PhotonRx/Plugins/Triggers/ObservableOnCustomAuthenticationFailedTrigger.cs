@@ -12,7 +12,7 @@ namespace PhotonRx.Triggers
 
         private void OnCustomAuthenticationFailed(string message)
         {
-            if (onCustomAuthenticationFailed != null) onCustomAuthenticationFailed.OnNext(message);
+            onCustomAuthenticationFailed?.OnNext(message);
         }
 
         /// <summary>
@@ -25,10 +25,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onCustomAuthenticationFailed != null)
-            {
-                onCustomAuthenticationFailed.OnCompleted();
-            }
+            onCustomAuthenticationFailed?.OnCompleted();
         }
     }
 }

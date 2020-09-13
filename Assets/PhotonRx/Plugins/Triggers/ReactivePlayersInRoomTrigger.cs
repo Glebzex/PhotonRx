@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
-using System;
 using System.Linq;
+using Photon.Pun;
+using Photon.Realtime;
 using UniRx;
 using UniRx.Triggers;
 
 namespace PhotonRx.Triggers
 {
     [DisallowMultipleComponent]
-    public class ReactivePhotonPlayersTriggers : ObservableTriggerBase
+    public class ReactivePlayersTriggers : ObservableTriggerBase
     {
-        private ReactiveCollection<PhotonPlayer> _playersReactiveCollection; 
+        private ReactiveCollection<Player> _playersReactiveCollection; 
 
         /// <summary>
-        /// PhotonNetwork.Firendsが更新されたことを通知する
+        /// PhotonNetwork.Friendsが更新されたことを通知する
         /// </summary>
-        public ReactiveCollection<PhotonPlayer> PhotonPlayersReactiveCollection()
+        public ReactiveCollection<Player> PlayersReactiveCollection()
         {
             return _playersReactiveCollection ??
-                   (_playersReactiveCollection = new ReactiveCollection<PhotonPlayer>(PhotonNetwork.playerList.ToList()));
+                   (_playersReactiveCollection = new ReactiveCollection<Player>(PhotonNetwork.PlayerList.ToList()));
         }
 
         private void OnJoinedRoom()
@@ -28,42 +29,30 @@ namespace PhotonRx.Triggers
             {
                 _playersReactiveCollection.Clear();
             }
-            foreach (var photonPlayer in PhotonNetwork.playerList)
+            foreach (var Player in PhotonNetwork.PlayerList)
             {
-                _playersReactiveCollection.Add(photonPlayer);
+                _playersReactiveCollection.Add(Player);
             }
         }
 
         private void OnLeftRoom()
         {
-            if (_playersReactiveCollection != null)
-            {
-                _playersReactiveCollection.Clear();
-            }
+            _playersReactiveCollection?.Clear();
         }
 
-        private void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+        private void OnPlayerConnected(Player newPlayer)
         {
-            if (_playersReactiveCollection != null)
-            {
-                _playersReactiveCollection.Add(newPlayer);
-            }
+            _playersReactiveCollection?.Add(newPlayer);
         }
 
-        private void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+        private void OnPlayerDisconnected(Player otherPlayer)
         {
-            if (_playersReactiveCollection != null)
-            {
-                _playersReactiveCollection.Remove(otherPlayer);
-            }
+            _playersReactiveCollection?.Remove(otherPlayer);
         }
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (_playersReactiveCollection != null)
-            {
-                _playersReactiveCollection.Dispose();
-            }
+            _playersReactiveCollection?.Dispose();
         }
     }
 }

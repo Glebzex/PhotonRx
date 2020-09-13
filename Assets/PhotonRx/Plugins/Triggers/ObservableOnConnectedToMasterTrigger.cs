@@ -12,7 +12,7 @@ namespace PhotonRx.Triggers
 
         private void OnConnectedToMaster()
         {
-            if (onConnectedToMaster != null) onConnectedToMaster.OnNext(Unit.Default);
+            onConnectedToMaster?.OnNext(Unit.Default);
         }
 
         /// <summary>
@@ -25,10 +25,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onConnectedToMaster != null)
-            {
-                onConnectedToMaster.OnCompleted();
-            }
+            onConnectedToMaster?.OnCompleted();
         }
     }
 }

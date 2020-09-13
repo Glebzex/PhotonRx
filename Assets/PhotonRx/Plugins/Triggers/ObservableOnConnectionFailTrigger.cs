@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Photon.Realtime;
 using UniRx;
 using UniRx.Triggers;
 
@@ -12,7 +13,7 @@ namespace PhotonRx.Triggers
 
         private void OnConnectionFail(DisconnectCause cause)
         {
-            if (onConnectionFail != null) onConnectionFail.OnNext(cause);
+            onConnectionFail?.OnNext(cause);
         }
 
         /// <summary>
@@ -25,10 +26,7 @@ namespace PhotonRx.Triggers
 
         protected override void RaiseOnCompletedOnDestroy()
         {
-            if (onConnectionFail != null)
-            {
-                onConnectionFail.OnCompleted();
-            }
+            onConnectionFail?.OnCompleted();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using Photon.Pun;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,14 +25,13 @@ namespace PhotonRx.Sample
                 //確実に結果ストリームを受信できる状態にしてからConnectを実行する
                 //(先にConnectしてからSubscribeだと値を取りこぼす可能性がありうる）
                 var disposable = this.OnJoinedLobbyAsObservable().FirstOrDefault().Subscribe(observer);
-                PhotonNetwork.ConnectUsingSettings("0.1");
+                PhotonNetwork.ConnectUsingSettings();
                 return disposable;
             }).Subscribe(_ =>
             {
                 Debug.Log("サーバに接続完了");
                 SetupUIs();
             });
-
         }
 
         void SetupUIs()
@@ -50,6 +50,5 @@ namespace PhotonRx.Sample
                     ResultText.text = reasonText;
                 });
         }
-
     }
 }
