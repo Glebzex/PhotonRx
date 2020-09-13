@@ -214,7 +214,7 @@ namespace PhotonRx
         {
             if (component == null || component.gameObject == null) return Observable.Empty<Hashtable>();
             return GetOrAddComponent<ObservableOnPhotonCustomRoomPropertiesChangedTrigger>(component.gameObject)
-                .OnPhotonPlayerConnectedAsObservable();
+                .OnPlayerConnectedAsObservable();
         }
 
         #endregion

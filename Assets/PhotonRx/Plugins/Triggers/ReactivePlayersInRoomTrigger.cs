@@ -29,9 +29,9 @@ namespace PhotonRx.Triggers
             {
                 _playersReactiveCollection.Clear();
             }
-            foreach (var Player in PhotonNetwork.PlayerList)
+            foreach (var player in PhotonNetwork.PlayerList)
             {
-                _playersReactiveCollection.Add(Player);
+                _playersReactiveCollection.Add(player);
             }
         }
 

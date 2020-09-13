@@ -19,7 +19,7 @@ namespace PhotonRx.Triggers
         /// <summary>
         /// 部屋のカスタムプロパティが変更されたことを通知する
         /// </summary>
-        public IObservable<Hashtable> OnPhotonPlayerConnectedAsObservable()
+        public IObservable<Hashtable> OnPlayerConnectedAsObservable()
         {
             return onPhotonCustomRoomPropertiesChanged ?? (onPhotonCustomRoomPropertiesChanged = new Subject<Hashtable>());
         }
