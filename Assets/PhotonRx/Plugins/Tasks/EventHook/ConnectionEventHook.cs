@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine;
 
 namespace PhotonRx
 {
-    public class ConnectionEventHook : MonoBehaviour
+    public class ConnectionEventHook : MonoBehaviourPunCallbacks
     {
         private object gate = new object();
 
@@ -21,11 +21,12 @@ namespace PhotonRx
             {
                 observers.Add(tcs);
             }
+
             connectAction();
             return tcs.Task;
         }
 
-        private void OnConnectedToPhoton()
+        public override void OnConnectedToMaster()
         {
             lock (gate)
             {
@@ -38,7 +39,7 @@ namespace PhotonRx
             }
         }
 
-        private void OnJoinedLobby()
+        public override void OnJoinedLobby()
         {
             lock (gate)
             {
@@ -51,7 +52,7 @@ namespace PhotonRx
             }
         }
 
-        private void OnFailedToConnectToPhoton(DisconnectCause cause)
+        public override void OnDisconnected(DisconnectCause cause)
         {
             lock (gate)
             {

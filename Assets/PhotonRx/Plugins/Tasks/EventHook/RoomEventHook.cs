@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEngine;
+using Photon.Pun;
 
 namespace PhotonRx
 {
-    public class RoomEventHook : MonoBehaviour
+    public class RoomEventHook : MonoBehaviourPunCallbacks
     {
         private object gate = new object();
 
@@ -20,16 +20,14 @@ namespace PhotonRx
             {
                 observers.Add(tcs);
             }
+
             joinAction();
             return tcs.Task;
         }
 
-
-        private void OnPhotonRandomJoinFailed(object[] log)
+        public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            var code = (short)log[0];
-            var message = log[1] as string;
-            var reason = new FailureReason(code, message);
+            var reason = new FailureReason(returnCode, message);
             lock (gate)
             {
                 var targets = observers.ToArray();
@@ -41,11 +39,9 @@ namespace PhotonRx
             }
         }
 
-        private void OnPhotonJoinRoomFailed(object[] log)
+        public override void OnJoinRoomFailed(short returnCode, string message)
         {
-            var code = (short)log[0];
-            var message = log[1] as string;
-            var reason = new FailureReason(code, message);
+            var reason = new FailureReason(returnCode, message);
             lock (gate)
             {
                 var targets = observers.ToArray();
@@ -57,7 +53,7 @@ namespace PhotonRx
             }
         }
 
-        private void OnJoinedRoom()
+        public override void OnJoinedRoom()
         {
             lock (gate)
             {
